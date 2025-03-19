@@ -5,7 +5,32 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map { height: 600px; }
-        .popup-content { max-width: 200px; } /* Set a maximum width for the popup content */
+        .legend {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            position: absolute;
+            bottom: 30px;
+            width:230px;
+            left: 30px;
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+        }
+        .legend h4 {
+            margin: 0 0 10px;
+            font-size: 24px;
+            color: #333;
+        }
+        .legend label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: #555;
+        }
+        .legend input[type="checkbox"] {
+            margin-right: 5px;
+        }
         .parish-label {
             background: none; 
             border: none; 
@@ -20,62 +45,103 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
     <script>
-        // Initialize the map centered on Jamaica and disable zoom controls
-        var map = L.map('map', {
-            center: [18.1096, -77.2975], // Coordinates for Jamaica
-            zoom: 9, // Zoom level to focus on Jamaica
-            zoomControl: false, // Disable zoom controls
-            scrollWheelZoom: false, // Disable zooming with mouse wheel
-            doubleClickZoom: false, // Disable zooming with double click
-            dragging: false // Disable dragging the map
+        // Define the custom icon for retail markers.
+        var hiloIcon = L.icon({
+            iconUrl: 'hilo-icon.png',
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32]
+        });        
+        
+        var manufacturerIcon = L.icon({
+            iconUrl: 'manufactureIcon.png',
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32]
         });
-        L.tileLayer('https://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
-        }).addTo(map);
 
-        // Define the locations with details, including facts where provided.
+        var markers = [];
+        var map = L.map('map', { 
+            center: [18.1096, -77.2975], 
+            zoom: 9, 
+            zoomControl: true, 
+            minZoom: 9
+        });
+        L.tileLayer('https://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg').addTo(map);
+
         var locations = [
-            {lat: 17.9797, lng: -76.9447, name: 'Grace Distribution Center', image: './GraceDC.jpg', facts: "<b>Facts:</b><ul><li>Located at Salt Pond Road, Spanish Town</li><li>Key logistics hub for GraceKennedy</li></ul>"},
-            {lat: 18.2191, lng: -78.1334, name: 'Grace Foods Processor Division', image: './GraceSav.jpg', facts: "<b>Facts:</b><ul><li>Located at 6 Paradise Road, Savanna-la-mar</li><li>Manufactures a variety of food products</li></ul>"},
-            {lat: 17.9662, lng: -76.7932, name: 'GraceKennedy Foods Head Office', image: './GraceFoodHO.jpg', facts: "<b>Facts:</b><ul><li>Located at 42-56 Harbour St, Kingston</li><li>Headquarters of GraceKennedy Foods</li></ul>"}
+            {lat: 17.9797, lng: -76.9447, name: 'Grace Distribution Center', category: 'distribution', image: './GraceDC.jpg', facts: "<b>Facts:</b><ul><li>Located at Salt Pond Road, Spanish Town</li><li>Key logistics hub for GraceKennedy</li></ul>"},
+            {lat: 18.2191, lng: -78.1334, name: 'Grace Foods Processor Division', category: 'manufacturer', image: './GraceSav.jpg', facts: "<b>Facts:</b><ul><li>Located at 6 Paradise Road, Savanna-la-mar</li><li>Manufactures a variety of food products</li></ul>"},
+            {lat: 17.9662, lng: -76.7932, name: 'Downtown Express Store', category: 'retail', image: './GraceFoodHO.jpg', facts: "<b>Facts:</b><ul><li>Located at 42-56 Harbour St, Kingston</li><li>Headquarters of GraceKennedy Foods</li></ul>"},
+            {lat: 18.0179, lng: -76.7833, name: 'Barbican', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 87 3/4 Barbican Rd, Kingston</li></ul>"},
+            {lat: 18.4716, lng: -77.9186, name: 'Church Street', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 19-21 Church Street, Montego Bay, St. James</li></ul>"},
+            {lat: 18.0075, lng: -76.7831, name: 'Cross Roads', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 13 Old Hope Rd, Kingston 5</li></ul>"},
+            {lat: 18.4716, lng: -77.9186, name: 'Fairview', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located in Montego Bay, St. James</li></ul>"},
+            {lat: 18.0075, lng: -76.7831, name: 'Liguanea Lane Plaza', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 121 Old Hope Road, Kingston 6, St. Andrew</li></ul>"},
+            {lat: 18.0179, lng: -76.8099, name: 'Manor Park', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Manor Park Plaza, Kingston 8</li></ul>"},
+            {lat: 18.0075, lng: -76.7831, name: 'Mona Campus', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Student Union UWI, Kingston 6</li></ul>"},
+            {lat: 18.2686, lng: -78.3472, name: 'Negril', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Shop# 30, The Boardwalk Shopping Village, Negril</li></ul>"},
+            {lat: 18.2686, lng: -78.3472, name: 'Negril Value Master', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located in Westmoreland</li></ul>"},
+            {lat: 18.0179, lng: -76.8099, name: 'Pavilion Mall', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 13 Constant Spring Rd, Kingston 10</li></ul>"},
+            {lat: 17.9765, lng: -76.8672, name: 'Portmore', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Portmore Pines Plaza, St. Catherine</li></ul>"},
+            {lat: 17.9911, lng: -76.9577, name: 'Spanish Town', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at LOJ Shopping Centre, St. Catherine</li></ul>"},
+            {lat: 18.4716, lng: -77.9186, name: 'Grace Montego Bay Distribution Center', category:'distribution', image: './GraceMBDC.png', facts: "<b>Facts:</b><ul><li>Located at 6 Pimento Way, Montego Bay</li><li>Key logistics hub for GraceKennedy</li></ul>"},
+            {lat: 17.9712, lng: -77.2456, name: 'Grace Agro Processors', category:'manufacturer', image: './GAPDenbigh.jpg', facts: "<b>Facts:</b><ul><li>Located at Denbigh, Clarendon</li><li>Manufactures a variety of food products</li></ul>"},
+            {lat: 17.9970, lng: -76.7936, name: 'Nalcan', category:'manufacturer', image: './nalcan.jpg', facts: "<b>Facts:</b><ul><li>Located at 1 Twickenham Cl, Kingston 5</li><li>Manufactures a variety of food products</li></ul>"},
+            {lat: 18.02615, lng: -76.83768, name: 'Dairy Industries Limited', category:'manufacturer', image: './DIJL.jpg', facts: "<b>Facts:</b><ul><li>Located at 111 Washington Blvd, Kingston 11</li><li>Manufactures a variety of food products</li></ul>"},
+            {lat: 18.1766, lng: -76.4500, name: 'Unibev', category:'manufacturer', image: './unibev.png', facts: "<b>Facts:</b><ul><li>Located at Spring Garden, Portland</li><li>Manufactures a variety of food products</li></ul>"}
         ];
-
-        // Create a bounds object to store the coordinates of all markers.
-        var bounds = L.latLngBounds();
-
-        // Loop through each location and add a marker with a popup.
-        locations.forEach(function(location) {
-            var marker = L.marker([location.lat, location.lng]).addTo(map); // Use default marker
-            
-            // Extend the bounds to include this marker's coordinates.
-            bounds.extend([location.lat, location.lng]);
-            
-            // Create the popup content with a centered image of fixed size.
-            var popupContent = '<div class="popup-content"><b>' + location.name + '</b><br>' +
-                               '<img src="' + location.image + '" alt="' + location.name + 
-                               '" style="width:150px;height:100px;display:block;margin:0 auto; margin-top:10px;"><br>';
-            
-            // Check if facts are provided; handle string or array.
-            if (location.facts) {
-                if (Array.isArray(location.facts)) {
-                    popupContent += location.facts.join('<br>');
-                } else {
-                    popupContent += location.facts;
-                }
+        
+        locations.forEach(function (location) {
+            // For retail use the custom retail icon, for manufacturer use the manufacturer icon, and for others let Leaflet use its default icon.
+            var icon = undefined;
+            if (location.category === 'retail') {
+                icon = hiloIcon;
+            } else if (location.category === 'manufacturer') {
+                icon = manufacturerIcon;
             }
-            
-            popupContent += '</div>';
-            marker.bindPopup(popupContent);
+            var popupContent = '<b>' + location.name + '</b><br>' +
+                               '<img src="' + location.image + '" style="width:150px;height:100px;display:block;margin:10px auto;"><br>' +
+                               '<p>' + location.facts + '</p>';
+            var marker = L.marker([location.lat, location.lng], icon ? { icon: icon } : {}).bindPopup(popupContent);
+            markers.push({ marker: marker, category: location.category });
+            marker.addTo(map);
         });
-
-        // Load GeoJSON data for Jamaica's parishes and add it to the map
-        var countryGeoJsonUrl = 'jm.json'; // Replace with the actual URL to the GeoJSON file
+        
+        var legend = L.control({ position: 'bottomleft' });
+        legend.onAdd = function () {
+            var div = L.DomUtil.create('div', 'legend');
+            div.innerHTML = '<h4>Legend</h4>' +
+                '<label><input type="checkbox" class="location-filter" data-category="manufacturer" checked> Manufacturers 🏭</label>' +
+                '<label><input type="checkbox" class="location-filter" data-category="retail" checked> Retailers 🛒</label>' +
+                '<label><input type="checkbox" class="location-filter" data-category="distribution" checked> Distribution Centers 📦</label>';
+            return div;
+        };
+        legend.addTo(map);
+        
+        document.querySelectorAll('.location-filter').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                var category = this.getAttribute('data-category');
+                markers.forEach(function (obj) {
+                    if (obj.category === category) {
+                        if (checkbox.checked) {
+                            obj.marker.addTo(map);
+                        } else {
+                            map.removeLayer(obj.marker);
+                        }
+                    }
+                });
+            });
+        });
+        
+        var countryGeoJsonUrl = 'jm.json';
         var countryOverlay = new L.GeoJSON.AJAX(countryGeoJsonUrl, {
             style: function (feature) {
                 return {
-                    color: "#fff", // Boundary line color
-                    weight: 2, // Boundary line width
-                    fillColor: "#FF4444", // Less intense red fill color
-                    fillOpacity: 1.0 // Fill opacity
+                    color: "#fff",
+                    weight: 2,
+                    fillColor: "#FF4444",
+                    fillOpacity: 1.0
                 };
             },
             onEachFeature: function (feature, layer) {
