@@ -101,7 +101,7 @@
                 icon = manufacturerIcon;
             }
             var popupContent = '<b>' + location.name + '</b><br>' +
-                               '<img src="' + location.image + '" style="width:150px;height:100px;display:block;margin:10px auto;"><br>' +
+                               '<img src="' + location.image + '" style="width:150px;height:100px;display:block;margin:10px auto;">' +
                                '<p>' + location.facts + '</p>';
             var marker = L.marker([location.lat, location.lng], icon ? { icon: icon } : {}).bindPopup(popupContent);
             markers.push({ marker: marker, category: location.category });
