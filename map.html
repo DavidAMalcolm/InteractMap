@@ -12,13 +12,14 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             position: absolute;
             bottom: 30px;
-            width:230px;
+            width: 250px;
             left: 30px;
             z-index: 1000;
             font-family: Arial, sans-serif;
         }
         .legend h4 {
             margin: 0 0 10px;
+            margin-bottom:0px;
             font-size: 24px;
             color: #333;
         }
@@ -38,6 +39,16 @@
             font-weight: bold; 
             color: #fff; 
         }
+        .box{
+            width:20px;
+            height:20px;
+            margin-right:10px;
+            display:inline-block;
+            border-radius: 5px;
+        }
+        .yellow{background-color: yellow;}
+        .purple{background-color: purple;}
+        .blue{background-color: blue;}
     </style>
 </head>
 <body>
@@ -45,9 +56,9 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
     <script>
-        // Define the custom icon for retail markers.
+.
         var hiloIcon = L.icon({
-            iconUrl: 'hilo-icon.png',
+            iconUrl: 'purpleMarker.png',
             iconSize: [32, 32],
             iconAnchor: [16, 32],
             popupAnchor: [0, -32]
@@ -74,9 +85,9 @@
             {lat: 18.2191, lng: -78.1334, name: 'Grace Foods Processor Division', category: 'manufacturer', image: './GraceSav.jpg', facts: "<b>Facts:</b><ul><li>Located at 6 Paradise Road, Savanna-la-mar</li><li>Manufactures a variety of food products</li></ul>"},
             {lat: 17.9662, lng: -76.7932, name: 'Downtown Express Store', category: 'retail', image: './GraceFoodHO.jpg', facts: "<b>Facts:</b><ul><li>Located at 42-56 Harbour St, Kingston</li><li>Headquarters of GraceKennedy Foods</li></ul>"},
             {lat: 18.0179, lng: -76.7833, name: 'Barbican', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 87 3/4 Barbican Rd, Kingston</li></ul>"},
-            {lat: 18.4716, lng: -77.9186, name: 'Church Street', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 19-21 Church Street, Montego Bay, St. James</li></ul>"},
+            {lat: 18.4716, lng: -77.8186, name: 'Church Street', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 19-21 Church Street, Montego Bay, St. James</li></ul>"},
             {lat: 18.0075, lng: -76.7831, name: 'Cross Roads', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 13 Old Hope Rd, Kingston 5</li></ul>"},
-            {lat: 18.4716, lng: -77.9186, name: 'Fairview', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located in Montego Bay, St. James</li></ul>"},
+            {lat: 18.3611, lng: -77.9519, name: 'Fairview', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located in Montego Bay, St. James</li></ul>"},
             {lat: 18.0075, lng: -76.7831, name: 'Liguanea Lane Plaza', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 121 Old Hope Road, Kingston 6, St. Andrew</li></ul>"},
             {lat: 18.0179, lng: -76.8099, name: 'Manor Park', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Manor Park Plaza, Kingston 8</li></ul>"},
             {lat: 18.0075, lng: -76.7831, name: 'Mona Campus', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Student Union UWI, Kingston 6</li></ul>"},
@@ -101,7 +112,7 @@
                 icon = manufacturerIcon;
             }
             var popupContent = '<b>' + location.name + '</b><br>' +
-                               '<img src="' + location.image + '" style="width:150px;height:100px;display:block;margin:10px auto;">' +
+                               '<img src="' + location.image + '" style="width:150px;height:100px;display:block;margin:10px auto; margin-bottom:0px;">' +
                                '<p>' + location.facts + '</p>';
             var marker = L.marker([location.lat, location.lng], icon ? { icon: icon } : {}).bindPopup(popupContent);
             markers.push({ marker: marker, category: location.category });
@@ -112,9 +123,9 @@
         legend.onAdd = function () {
             var div = L.DomUtil.create('div', 'legend');
             div.innerHTML = '<h4>Legend</h4>' +
-                '<label><input type="checkbox" class="location-filter" data-category="manufacturer" checked> Manufacturers 🏭</label>' +
-                '<label><input type="checkbox" class="location-filter" data-category="retail" checked> Retailers 🛒</label>' +
-                '<label><input type="checkbox" class="location-filter" data-category="distribution" checked> Distribution Centers 📦</label>';
+                '<label><input type="checkbox" class="location-filter" data-category="manufacturer" checked> Manufacturers 🏭<div class="box yellow"></div></label>' +
+                '<label><input type="checkbox" class="location-filter" data-category="retail" checked> Retailers 🛒 <div class="box purple"></div></label>' +
+                '<label><input type="checkbox" class="location-filter" data-category="distribution" checked> Distribution Centers 📦 <div class="box blue"></div></label>';
             return div;
         };
         legend.addTo(map);
