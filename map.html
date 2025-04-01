@@ -75,7 +75,7 @@
             border-radius: 5px;
         }
         .yellow{background-color: yellow;}
-        .purple{background-color: brown;}
+        .purple{background-color: red;}
         .blue{background-color: blue;}
     </style>
 </head>
@@ -86,7 +86,7 @@
     <script>
         // Define the custom icon for retail markers.
         var hiloIcon = L.icon({
-            iconUrl: 'brown.png',
+            iconUrl: 'hilo-icon.png',
             iconSize: [50, 50],
             iconAnchor: [16, 32],
             popupAnchor: [0, -32]
@@ -104,7 +104,9 @@
             center: [18.1096, -77.2975], 
             zoom: 9, 
             zoomControl: true, 
-            minZoom: 9
+            minZoom: 9,
+            maxBounds:[[17.7000, -78.5000], [18.5000, -76.0000]],
+            maxBoundsViscosity: 1.0
         });
         L.tileLayer('https://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg').addTo(map);
 
@@ -119,6 +121,7 @@
             {lat: 18.0075, lng: -76.7831, name: 'Liguanea Lane Plaza', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 121 Old Hope Road, Kingston 6, St. Andrew</li></ul>"},
             {lat: 18.0179, lng: -76.8099, name: 'Manor Park', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Manor Park Plaza, Kingston 8</li></ul>"},
             {lat: 18.0075, lng: -76.7831, name: 'Mona Campus', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Student Union UWI, Kingston 6</li></ul>"},
+            {lat: 17.94419, lng: -77.73565, name: 'Hounslow, St. Elizabeth', category:'manufacturer', image: './Hounslow.jpg', facts: "<b>Facts:</b><ul><li>Located at Houslow, St. Elizabeth</li></ul>"},
             {lat: 18.2686, lng: -78.3472, name: 'Negril', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Shop# 30, The Boardwalk Shopping Village, Negril</li></ul>"},
             {lat: 18.2686, lng: -78.3472, name: 'Negril Value Master', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located in Westmoreland</li></ul>"},
             {lat: 18.0179, lng: -76.8099, name: 'Pavilion Mall', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 13 Constant Spring Rd, Kingston 10</li></ul>"},
@@ -180,7 +183,7 @@
                 return {
                     color: "#fff",
                     weight: 2,
-                    fillColor: "#FF5555",
+                    fillColor: "#FFA888",
                     fillOpacity: 1.0
                 };
             },
@@ -196,3 +199,4 @@
     </script>
 </body>
 </html>
+
