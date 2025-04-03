@@ -63,7 +63,8 @@
         .parish-label {
             background: none; 
             border: none; 
-            font-size: 18px; 
+            box-shadow: none;
+            font-size: 12px; 
             font-weight: bold; 
             color: #fff; 
         }
@@ -86,14 +87,14 @@
     <script>
         // Define the custom icon for retail markers.
         var hiloIcon = L.icon({
-            iconUrl: 'hilo-icon.png',
+            iconUrl: './img/hilo-icon.png',
             iconSize: [50, 50],
             iconAnchor: [16, 32],
             popupAnchor: [0, -32]
         });        
         
         var manufacturerIcon = L.icon({
-            iconUrl: 'manufactureIcon.png',
+            iconUrl: './img/manufactureIcon.png',
             iconSize: [32, 32],
             iconAnchor: [16, 32],
             popupAnchor: [0, -32]
@@ -111,31 +112,30 @@
         L.tileLayer('https://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg').addTo(map);
 
         var locations = [
-            {lat: 17.9797, lng: -76.9447, name: 'Grace Distribution Center', category: 'distribution', image: './GraceDC.jpg', facts: "<b>Facts:</b><ul><li>Located at Salt Pond Road, Spanish Town</li><li>Key logistics hub for GraceKennedy</li></ul>"},
-            {lat: 18.2191, lng: -78.1334, name: 'Grace Foods Processor Division', category: 'manufacturer', image: './GraceSav.jpg', facts: "<b>Facts:</b><ul><li>Located at 6 Paradise Road, Savanna-la-mar</li><li>Manufactures a variety of food products</li></ul>"},
-            {lat: 17.9662, lng: -76.7932, name: 'Downtown Express Store', category: 'retail', image: './GraceFoodHO.jpg', facts: "<b>Facts:</b><ul><li>Located at 42-56 Harbour St, Kingston</li><li>Headquarters of GraceKennedy Foods</li></ul>"},
-            {lat: 18.0179, lng: -76.7833, name: 'Barbican', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 87 3/4 Barbican Rd, Kingston</li></ul>"},
-            {lat: 18.4716, lng: -77.8186, name: 'Church Street', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 19-21 Church Street, Montego Bay, St. James</li></ul>"},
-            {lat: 18.0075, lng: -76.7831, name: 'Cross Roads', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 13 Old Hope Rd, Kingston 5</li></ul>"},
-            {lat: 18.3611, lng: -77.9519, name: 'Fairview', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located in Montego Bay, St. James</li></ul>"},
-            {lat: 18.0075, lng: -76.7831, name: 'Liguanea Lane Plaza', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 121 Old Hope Road, Kingston 6, St. Andrew</li></ul>"},
-            {lat: 18.0179, lng: -76.8099, name: 'Manor Park', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Manor Park Plaza, Kingston 8</li></ul>"},
-            {lat: 18.0075, lng: -76.7831, name: 'Mona Campus', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Student Union UWI, Kingston 6</li></ul>"},
-            {lat: 17.94419, lng: -77.73565, name: 'Hounslow, St. Elizabeth', category:'manufacturer', image: './Hounslow.jpg', facts: "<b>Facts:</b><ul><li>Located at Houslow, St. Elizabeth</li></ul>"},
-            {lat: 18.2686, lng: -78.3472, name: 'Negril', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Shop# 30, The Boardwalk Shopping Village, Negril</li></ul>"},
+            {lat: 17.9797, lng: -76.9447, name: 'Grace Distribution Center', category: 'distribution', image: './img/GraceDC.jpg', facts: "<b>Facts:</b><ul><li>Located at Salt Pond Road, Spanish Town</li><li>Key logistics hub for GraceKennedy</li></ul>"},
+            {lat: 18.2191, lng: -78.1334, name: 'Grace Foods Processor Division', category: 'manufacturer', image: './img/GraceSav.jpg', facts: "<b>Facts:</b><ul><li>Located at 6 Paradise Road, Savanna-la-mar</li><li>Manufactures a variety of food products</li></ul>"},
+            {lat: 17.9662, lng: -76.7932, name: 'Downtown Express Store', category: 'retail', image: './img/GraceFoodHO.jpg', facts: "<b>Facts:</b><ul><li>Located at 42-56 Harbour St, Kingston</li><li>Headquarters of GraceKennedy Foods</li></ul>"},
+            {lat: 18.0179, lng: -76.7833, name: 'Barbican', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 87 3/4 Barbican Rd, Kingston</li></ul>"},
+            {lat: 18.4716, lng: -77.8186, name: 'Church Street', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 19-21 Church Street, Montego Bay, St. James</li></ul>"},
+            {lat: 18.0075, lng: -76.7831, name: 'Cross Roads', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 13 Old Hope Rd, Kingston 5</li></ul>"},
+            {lat: 18.3611, lng: -77.9519, name: 'Fairview', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located in Montego Bay, St. James</li></ul>"},
+            {lat: 18.0075, lng: -76.7831, name: 'Liguanea Lane Plaza', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 121 Old Hope Road, Kingston 6, St. Andrew</li></ul>"},
+            {lat: 18.0179, lng: -76.8099, name: 'Manor Park', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Manor Park Plaza, Kingston 8</li></ul>"},
+            {lat: 18.0075, lng: -76.7831, name: 'Mona Campus', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Student Union UWI, Kingston 6</li></ul>"},
+            {lat: 17.94419, lng: -77.73565, name: 'Hounslow, St. Elizabeth', category:'manufacturer', image: './img/Hounslow.jpg', facts: "<b>Facts:</b><ul><li>Located at Houslow, St. Elizabeth</li></ul>"},
+            {lat: 18.2686, lng: -78.3472, name: 'Negril', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Shop# 30, The Boardwalk Shopping Village, Negril</li></ul>"},
             {lat: 18.2686, lng: -78.3472, name: 'Negril Value Master', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located in Westmoreland</li></ul>"},
-            {lat: 18.0179, lng: -76.8099, name: 'Pavilion Mall', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 13 Constant Spring Rd, Kingston 10</li></ul>"},
-            {lat: 17.9765, lng: -76.8672, name: 'Portmore', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Portmore Pines Plaza, St. Catherine</li></ul>"},
-            {lat: 17.9911, lng: -76.9577, name: 'Spanish Town', category:'retail', image: './Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at LOJ Shopping Centre, St. Catherine</li></ul>"},
-            {lat: 18.4716, lng: -77.9186, name: 'Grace Montego Bay Distribution Center', category:'distribution', image: './GraceMBDC.png', facts: "<b>Facts:</b><ul><li>Located at 6 Pimento Way, Montego Bay</li><li>Key logistics hub for GraceKennedy</li></ul>"},
-            {lat: 17.9712, lng: -77.2456, name: 'Grace Agro Processors', category:'manufacturer', image: './GAPDenbigh.jpg', facts: "<b>Facts:</b><ul><li>Located at Denbigh, Clarendon</li><li>Manufactures a variety of food products</li></ul>"},
-            {lat: 17.9970, lng: -76.7936, name: 'Nalcan', category:'manufacturer', image: './nalcan.jpg', facts: "<b>Facts:</b><ul><li>Located at 1 Twickenham Cl, Kingston 5</li><li>Manufactures a variety of food products</li></ul>"},
-            {lat: 18.02615, lng: -76.83768, name: 'Dairy Industries Limited', category:'manufacturer', image: './DIJL.jpg', facts: "<b>Facts:</b><ul><li>Located at 111 Washington Blvd, Kingston 11</li><li>Manufactures a variety of food products</li></ul>"},
-            {lat: 18.1766, lng: -76.4500, name: 'Unibev', category:'manufacturer', image: './unibev.png', facts: "<b>Facts:</b><ul><li>Located at Spring Garden, Portland</li><li>Manufactures a variety of food products</li></ul>"}
+            {lat: 18.0179, lng: -76.8099, name: 'Pavilion Mall', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at 13 Constant Spring Rd, Kingston 10</li></ul>"},
+            {lat: 17.9565, lng: -76.9972, name: 'Portmore', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at Portmore Pines Plaza, St. Catherine</li></ul>"},
+            {lat: 18.1011, lng: -76.9577, name: 'Spanish Town', category:'retail', image: './img/Hilo.jpg', facts: "<b>Facts:</b><ul><li>Located at LOJ Shopping Centre, St. Catherine</li></ul>"},
+            {lat: 18.4716, lng: -77.9186, name: 'Grace Montego Bay Distribution Center', category:'distribution', image: './img/GraceMBDC.png', facts: "<b>Facts:</b><ul><li>Located at 6 Pimento Way, Montego Bay</li><li>Key logistics hub for GraceKennedy</li></ul>"},
+            {lat: 17.9712, lng: -77.2456, name: 'Grace Agro Processors', category:'manufacturer', image: './img/GAPDenbigh.jpg', facts: "<b>Facts:</b><ul><li>Located at Denbigh, Clarendon</li><li>Manufactures a variety of food products</li></ul>"},
+            {lat: 17.9970, lng: -76.7936, name: 'Nalcan', category:'manufacturer', image: './img/nalcan.jpg', facts: "<b>Facts:</b><ul><li>Located at 1 Twickenham Cl, Kingston 5</li><li>Manufactures a variety of food products</li></ul>"},
+            {lat: 18.02615, lng: -76.83768, name: 'Dairy Industries Limited', category:'manufacturer', image: './img/DIJL.jpg', facts: "<b>Facts:</b><ul><li>Located at 111 Washington Blvd, Kingston 11</li><li>Manufactures a variety of food products</li></ul>"},
+            {lat: 18.1766, lng: -76.4500, name: 'Unibev', category:'manufacturer', image: './img/unibev.png', facts: "<b>Facts:</b><ul><li>Located at Spring Garden, Portland</li><li>Manufactures a variety of food products</li></ul>"}
         ];
         
         locations.forEach(function (location) {
-            // For retail use the custom retail icon, for manufacturer use the manufacturer icon, and for others let Leaflet use its default icon.
             var icon = undefined;
             if (location.category === 'retail') {
                 icon = hiloIcon;
@@ -191,7 +191,8 @@
                 if (feature.properties && feature.properties.name) {
                     layer.bindTooltip(feature.properties.name, {
                         direction: 'center',
-                        className: 'parish-label'
+                        className: 'parish-label',
+                        permanent:true
                     });
                 }
             }
@@ -199,4 +200,3 @@
     </script>
 </body>
 </html>
-
