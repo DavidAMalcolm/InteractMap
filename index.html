@@ -5,26 +5,24 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map { height: 600px; }
-        .popup-content { max-width: 200px; } /* Set a maximum width for the popup content */
+        .popup-content { max-width: 200px; } 
     </style>
 </head>
 <body>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        // Initialize the map centered on the world map and disable zoom controls
         var map = L.map('map', {
-            center: [20, 0], // Coordinates for the world map
-            zoom: 3, // Zoom level
-            zoomControl: false, // Disable zoom controls
-            scrollWheelZoom: false, // Disable zooming with mouse wheel
-            doubleClickZoom: false, // Disable zooming with double click
+            center: [20, 0],
+            zoom: 4, 
+            zoomControl: false, 
+            scrollWheelZoom: false, 
+            doubleClickZoom: false, 
             dragging:false
         });
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
         }).addTo(map);
 
-        // Define a custom red icon for the markers
         var redIcon = L.icon({
             iconUrl: './location.png',
             shadowUrl: './location.png',
@@ -34,7 +32,6 @@
             shadowSize: [41, 41]
         });
 
-        // Define the locations with details, including facts where provided.
         var locations = [
             {lat: 27.994402, lng: -81.760254, name: 'Lafe, Florida', image: './Grace Florida.jpg', facts: "<b>Facts:</b><ul><li>Largest Caribbean food distributor in the US 🌴</li></ul>"},
             {lat: 51.805, lng: -0.202, name: 'Grace Foods, UK', image: './GraceUK.jpg', facts: [
@@ -51,22 +48,17 @@
              facts: "<b>Facts:</b><ul><li>Importation and distribution of food and non-food grocery items 🌴</li><li>Brands include Grace, Roma, Caribbean Choice, La Fe, and Spring Time</li></ul>"}
         ];
 
-        // Create a bounds object to store the coordinates of all markers.
         var bounds = L.latLngBounds();
 
-        // Loop through each location and add a marker with a popup.
         locations.forEach(function(location) {
             var marker = L.marker([location.lat, location.lng], {icon: redIcon}).addTo(map);
             
-            // Extend the bounds to include this marker's coordinates.
             bounds.extend([location.lat, location.lng]);
             
-            // Create the popup content with a centered image of fixed size.
             var popupContent = '<div class="popup-content"><b>' + location.name + '</b><br>' +
                                '<img src="' + location.image + '" alt="' + location.name + 
                                '" style="width:150px;height:100px;display:block;margin:0 auto; margin-top:10px;"><br>';
             
-            // Check if facts are provided; handle string or array.
             if (location.facts) {
                 if (Array.isArray(location.facts)) {
                     popupContent += location.facts.join('<br>');
@@ -79,7 +71,6 @@
             marker.bindPopup(popupContent);
         });
 
-        // Set the map view to fit the bounds of all markers.
         map.fitBounds(bounds);
     </script>
 </body>
