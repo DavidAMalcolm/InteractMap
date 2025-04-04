@@ -18,14 +18,13 @@
             zoomControl: false, 
             scrollWheelZoom: false, 
             doubleClickZoom: false, 
-            dragging:false
         });
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
         }).addTo(map);
 
         var redIcon = L.icon({
-            iconUrl: './location.png',
-            shadowUrl: './location.png',
+            iconUrl: './img/location.png',
+            shadowUrl: './img/location.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],
             popupAnchor: [1, -34],
@@ -33,18 +32,18 @@
         });
 
         var locations = [
-            {lat: 27.994402, lng: -81.760254, name: 'Lafe, Florida', image: './Grace Florida.jpg', facts: "<b>Facts:</b><ul><li>Largest Caribbean food distributor in the US 🌴</li></ul>"},
-            {lat: 51.805, lng: -0.202, name: 'Grace Foods, UK', image: './GraceUK.jpg', facts: [
+            {lat: 27.994402, lng: -81.760254, name: 'Lafe, Florida', image: './img/Grace Florida.jpg', facts: "<b>Facts:</b><ul><li>Largest Caribbean food distributor in the US 🌴</li></ul>"},
+            {lat: 51.805, lng: -0.202, name: 'Grace Foods, UK', image: './img/GraceUK.jpg', facts: [
             "<b>Facts:</b><ul><li>Based in Welwyn Garden City since 1982 🏙️</li></ul>"
             ]},
-            {lat: 33.749, lng: -84.388, name: 'Lafe, Atlanta', image: './Lafe Atlanta.webp', facts: "<b>Facts:</b><ul><li>Lafe Atlanta Info 🏙️</li></ul>"},
-            {lat: 40.058, lng: -74.405, name: 'Lafe, New Jersey', image: './Grace New Jersey.jpg', facts: [
+            {lat: 33.749, lng: -84.388, name: 'Lafe, Atlanta', image: './img/Lafe Atlanta.webp', facts: "<b>Facts:</b><ul><li>Lafe Atlanta Info 🏙️</li></ul>"},
+            {lat: 40.058, lng: -74.405, name: 'Lafe, New Jersey', image: './img/Grace New Jersey.jpg', facts: [
             "<b>Facts:</b><ul><li>Full-service distributor of 1,400+ products 🛒</li><li>Top brands from Caribbean, Central & South America, Europe 🌎</li></ul>"
             ]},
-            {lat: 49.166, lng: -123.136, name: 'Canada, Richmond', image: './GraceFoodsCanada2.jpg', facts: [
+            {lat: 49.166, lng: -123.136, name: 'Canada, Richmond', image: './img/GraceFoodsCanada2.jpg', facts: [
             "<b>Facts:</b><ul><li>Based in Richmond, BC since 2001 🏙️</li></ul>"
             ]},
-            {lat: 17.504, lng: -88.196, name: 'Grace Foods, Belize City', image: './Grace Belize.jpg',
+            {lat: 17.504, lng: -88.196, name: 'Grace Foods, Belize City', image: './img/Grace Belize.jpg',
              facts: "<b>Facts:</b><ul><li>Importation and distribution of food and non-food grocery items 🌴</li><li>Brands include Grace, Roma, Caribbean Choice, La Fe, and Spring Time</li></ul>"}
         ];
 
